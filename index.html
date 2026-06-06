@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAR-OIL – Warsztat i Sklep Motoryzacyjny | Marki</title>
+  <meta name="description" content="DAR-OIL w Markach – sklep motoryzacyjny i warsztat od 1997 roku. Oleje, płyny, akumulatory, diagnostyka, serwis klimatyzacji, układ hamulcowy. Łąkówek 2a.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DAR-OIL – Warsztat i Sklep Motoryzacyjny">
+  <meta property="og:description" content="Sklep motoryzacyjny i warsztat w Markach od 1997 roku. Szeroki asortyment, gwarancja jakości, atrakcyjne ceny.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dar-oil.pl">
+  <meta property="og:image" content="images/brama_daroil.jpg">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "name": "DAR-OIL",
+    "description": "Warsztat i Sklep Motoryzacyjny – oleje, płyny eksploatacyjne, akumulatory, kosmetyki i usługi serwisowe dla wszystkich marek pojazdów.",
+    "url": "https://dar-oil.pl",
+    "telephone": ["+48227713928", "+48538428783"],
+    "email": "dar-oil@dar-oil.pl",
+    "foundingDate": "1997",
+    "taxID": "8241133764",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Łąkówek 2a",
+      "postalCode": "05-260",
+      "addressLocality": "Marki",
+      "addressRegion": "mazowieckie",
+      "addressCountry": "PL"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "08:00",
+        "closes": "13:00"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Khand:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #111214;
+      --bg2:       #18191d;
+      --bg3:       #1f2127;
+      --surface:   #252830;
+      --border:    #2e3039;
+      --orange:    #ff8c00;
+      --orange-d:  #cc7000;
+      --text:      #e8e9eb;
+      --muted:     #8a8f9a;
+      --white:     #ffffff;
+      --font-head: 'Khand', 'Arial', sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      background: rgba(17,18,20,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem;
+      text-decoration: none;
+    }
+    .nav-logo img { height: 38px; width: auto; }
+    .nav-logo span {
+      font-family: var(--font-head);
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--white); letter-spacing: .04em;
+    }
+    .nav-logo span em { color: var(--orange); font-style: normal; }
+
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-head);
+      font-size: 1rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    .nav-cta {
+      background: var(--orange); color: var(--bg) !important;
+      padding: .4rem 1.2rem; border-radius: 4px;
+    }
+    .nav-cta:hover { background: var(--orange-d) !important; color: var(--bg) !important; }
+
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: .4rem;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text);
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .mobile-menu a {
+      font-family: var(--font-head); font-size: 1.2rem; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--text); text-decoration: none;
+    }
+    .mobile-menu a:hover { color: var(--orange); }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 64px;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 3rem 5rem 5vw;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: ''; display: block;
+      width: 24px; height: 2px; background: var(--orange);
+    }
+
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      font-weight: 700; line-height: 1.05;
+      color: var(--white); letter-spacing: .02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span { color: var(--orange); }
+
+    .hero-desc {
+      font-size: 1rem; color: var(--muted);
+      max-width: 420px; margin-bottom: 2.5rem; line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-bottom: 2.5rem;
+    }
+    .hero-stat strong {
+      display: block;
+      font-family: var(--font-head); font-size: 2.4rem; font-weight: 700;
+      color: var(--orange); line-height: 1;
+    }
+    .hero-stat span { font-size: .8rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+    .btn {
+      display: inline-block;
+      font-family: var(--font-head); font-size: 1rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none;
+      padding: .85rem 2rem; border-radius: 4px;
+      transition: background .2s, color .2s;
+    }
+    .btn-primary { background: var(--orange); color: var(--bg); }
+    .btn-primary:hover { background: var(--orange-d); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--muted);
+      margin-left: 1rem;
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(.7);
+    }
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--bg) 0%, transparent 30%);
+    }
+
+    /* ── O NAS ───────────────────────────────────────────── */
+    #o-nas {
+      padding: 6rem 5vw;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: center;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap img {
+      width: 100%; border-radius: 4px;
+      filter: brightness(.85);
+    }
+    .about-img-badge {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      background: var(--orange); color: var(--bg);
+      padding: 1.2rem 1.8rem; border-radius: 4px;
+      font-family: var(--font-head); font-weight: 700;
+      text-align: center; line-height: 1.2;
+    }
+    .about-img-badge strong { font-size: 2rem; display: block; }
+    .about-img-badge span { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+
+    .about-content { padding-left: 1rem; }
+    .section-label {
+      font-size: .78rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--orange);
+      display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem;
+    }
+    .section-label::before { content: ''; width: 24px; height: 2px; background: var(--orange); }
+
+    .section-title {
+      font-family: var(--font-head); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700; color: var(--white); line-height: 1.1;
+      margin-bottom: 1.2rem; letter-spacing: .02em;
+    }
+
+    .about-content p { color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+
+    .about-points { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: .7rem; }
+    .about-points li {
+      display: flex; align-items: center; gap: .7rem;
+      font-size: .95rem; color: var(--text);
+    }
+    .about-points li::before {
+      content: ''; flex-shrink: 0;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* ── USŁUGI ──────────────────────────────────────────── */
+    #uslugi {
+      background: var(--bg2);
+      padding: 6rem 5vw;
+    }
+
+    #uslugi .section-header { margin-bottom: 3.5rem; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      background: var(--bg2);
+      padding: 2rem;
+      transition: background .2s;
+      position: relative;
+    }
+    .service-card:hover { background: var(--bg3); }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--orange);
+      transition: height .3s;
+    }
+    .service-card:hover::before { height: 100%; }
+
+    .service-icon {
+      width: 48px; height: 48px; margin-bottom: 1.2rem;
+      opacity: .85;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-head); font-size: 1.25rem;
+      font-weight: 700; letter-spacing: .04em;
+      color: var(--white); margin-bottom: .6rem;
+    }
+
+    .service-card p { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+
+    .service-extra {
+      margin-top: .8rem; padding-top: .8rem;
+      border-top: 1px solid var(--border);
+      font-size: .82rem; color: var(--orange);
+    }
+
+    /* ── CENNIK SKRÓCONY ─────────────────────────────────── */
+    #cennik {
+      padding: 6rem 5vw;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: start;
+    }
+
+    .price-list { list-style: none; }
+    .price-list li {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .price-list li:first-child { border-top: 1px solid var(--border); }
+    .price-list .pname { color: var(--text); font-size: .95rem; }
+    .price-list .pprice {
+      flex-shrink: 0;
+      font-family: var(--font-head); font-weight: 700;
+      color: var(--orange); font-size: 1.05rem;
+    }
+
+    .cennik-note {
+      margin-top: 1.5rem; padding: 1rem 1.2rem;
+      background: var(--bg2); border-left: 3px solid var(--orange);
+      border-radius: 0 4px 4px 0;
+      font-size: .85rem; color: var(--muted); line-height: 1.6;
+    }
+
+    .cennik-img { position: relative; }
+    .cennik-img img { width: 100%; border-radius: 4px; filter: brightness(.8); }
+
+    /* ── MARKI ───────────────────────────────────────────── */
+    #marki {
+      background: var(--bg2);
+      padding: 5rem 5vw;
+    }
+
+    .brands-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 3rem;
+    }
+
+    .brand-cell {
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.8rem 1rem;
+      transition: background .2s;
+    }
+    .brand-cell:hover { background: var(--bg3); }
+    .brand-cell img {
+      max-height: 42px; max-width: 110px;
+      width: auto; height: auto;
+      filter: grayscale(1) brightness(1.8);
+      opacity: .6;
+      transition: filter .25s, opacity .25s;
+      object-fit: contain;
+    }
+    .brand-cell:hover img { filter: grayscale(0); opacity: 1; }
+
+    /* ── AKTUALNOŚCI ─────────────────────────────────────── */
+    #aktualnosci {
+      padding: 6rem 5vw;
+    }
+
+    .news-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+
+    .news-card img {
+      width: 100%; height: 320px;
+      object-fit: cover; filter: brightness(.8);
+    }
+
+    .news-content { padding: 2.5rem 2.5rem 2.5rem 0; }
+    .news-tag {
+      display: inline-block;
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--orange);
+      background: rgba(255,140,0,.1);
+      padding: .25rem .75rem; border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+    .news-content h3 {
+      font-family: var(--font-head); font-size: 1.5rem; font-weight: 700;
+      color: var(--white); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .news-content p { color: var(--muted); font-size: .92rem; line-height: 1.7; }
+
+    /* ── KONTAKT ─────────────────────────────────────────── */
+    #kontakt {
+      background: var(--bg2);
+      padding: 6rem 5vw;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    }
+
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+
+    .contact-block h4 {
+      font-family: var(--font-head); font-size: 1rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: .6rem;
+    }
+
+    .contact-block p, .contact-block a {
+      color: var(--text); font-size: .95rem;
+      text-decoration: none; line-height: 1.7;
+      display: block;
+    }
+    .contact-block a:hover { color: var(--orange); }
+
+    .hours-table { width: 100%; border-collapse: collapse; margin-top: .3rem; }
+    .hours-table td { padding: .3rem 0; color: var(--text); font-size: .92rem; }
+    .hours-table td:last-child { text-align: right; color: var(--muted); }
+
+    .contact-map {
+      border-radius: 4px; overflow: hidden;
+      height: 100%; min-height: 320px;
+      border: 1px solid var(--border);
+    }
+    .contact-map iframe { width: 100%; height: 100%; border: 0; filter: invert(.9) hue-rotate(180deg); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    footer p { color: var(--muted); font-size: .82rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: var(--muted); font-size: .82rem; text-decoration: none; }
+    .footer-links a:hover { color: var(--orange); }
+
+    /* ── SCROLL REVEAL ───────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-right { height: 50vw; }
+      .hero-left { padding: 3rem 5vw; }
+
+      #o-nas { grid-template-columns: 1fr; }
+      .about-img-badge { right: .5rem; }
+
+      #cennik { grid-template-columns: 1fr; }
+      .cennik-img { display: none; }
+
+      #kontakt { grid-template-columns: 1fr; }
+      .contact-map { min-height: 260px; }
+
+      .news-card { grid-template-columns: 1fr; }
+      .news-card img { height: 220px; }
+      .news-content { padding: 1.5rem; }
+    }
+
+    @media (max-width: 560px) {
+      .hero-stats { gap: 1.5rem; }
+      .hero-stat strong { font-size: 1.8rem; }
+      .btn-ghost { margin-left: 0; margin-top: .75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="images/logo_nc.png" alt="DAR-OIL logo" onerror="this.style.display='none'">
+    <span>DAR<em>-OIL</em></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#o-nas">O nas</a></li>
+    <li><a href="#uslugi">Usługi</a></li>
+    <li><a href="#cennik">Cennik</a></li>
+    <li><a href="#marki">Marki</a></li>
+    <li><a href="#kontakt" class="nav-cta">Kontakt</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#o-nas" onclick="closeMenu()">O nas</a></li>
+    <li><a href="#uslugi" onclick="closeMenu()">Usługi</a></li>
+    <li><a href="#cennik" onclick="closeMenu()">Cennik</a></li>
+    <li><a href="#marki" onclick="closeMenu()">Marki</a></li>
+    <li><a href="#kontakt" onclick="closeMenu()">Kontakt</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Działamy od 1997 roku</div>
+    <h1>Warsztat<br>i Sklep<br><span>Motoryzacyjny</span></h1>
+    <p class="hero-desc">
+      Oleje, płyny eksploatacyjne, akumulatory, kosmetyki i materiały eksploatacyjne
+      do wszystkich marek samochodów osobowych, ciężarowych, motocykli i łodzi.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong>27+</strong>
+        <span>lat doświadczenia</span>
+      </div>
+      <div class="hero-stat">
+        <strong>20+</strong>
+        <span>marek produktów</span>
+      </div>
+      <div class="hero-stat">
+        <strong>6</strong>
+        <span>usług serwisowych</span>
+      </div>
+    </div>
+    <div>
+      <a href="#uslugi" class="btn btn-primary">Nasze usługi</a>
+      <a href="#kontakt" class="btn btn-ghost">Kontakt</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/silnik.jpg" alt="Silnik samochodowy">
+  </div>
+</section>
+
+<!-- O NAS -->
+<section id="o-nas">
+  <div class="about-img-wrap reveal">
+    <img src="images/brama_daroil.jpg" alt="DAR-OIL Łąkówek 2a Marki">
+    <div class="about-img-badge">
+      <strong>1997</strong>
+      <span>rok założenia</span>
+    </div>
+  </div>
+  <div class="about-content reveal">
+    <div class="section-label">O nas</div>
+    <h2 class="section-title">Wiedza i pełne<br>zaangażowanie<br>w obsłudze klienta</h2>
+    <p>
+      DAR-OIL to rodzinny sklep motoryzacyjny i warsztat w Markach pod Warszawą.
+      Od ponad 25 lat specjalizujemy się w sprzedaży olejów, płynów eksploatacyjnych,
+      akumulatorów oraz materiałów do wszystkich marek pojazdów.
+    </p>
+    <p>
+      Oferujemy zarówno produkty najwyższej jakości od renomowanych producentów,
+      jak i profesjonalny serwis — od wymiany oleju po diagnostykę komputerową i serwis klimatyzacji.
+    </p>
+    <ul class="about-points">
+      <li>Szeroki asortyment dla aut osobowych i ciężarowych</li>
+      <li>Obsługa motocykli i łodzi</li>
+      <li>Wymiana oleju z filtrem — GRATIS przy zakupie</li>
+      <li>Miejsce przystosowane do samochodów dostawczych (max wys. 4,2 m)</li>
+      <li>NIP: 824 113 37 64</li>
+    </ul>
+  </div>
+</section>
+
+<!-- USŁUGI -->
+<section id="uslugi">
+  <div class="section-header reveal">
+    <div class="section-label">Co robimy</div>
+    <h2 class="section-title">Usługi serwisowe</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <circle cx="24" cy="24" r="10"/><path d="M24 4v4M24 40v4M4 24h4M40 24h4M8.7 8.7l2.8 2.8M36.5 36.5l2.8 2.8M8.7 39.3l2.8-2.8M36.5 11.5l2.8-2.8"/>
+      </svg>
+      <h3>Okresowa obsługa</h3>
+      <p>Wymiana oleju, filtrów powietrza, paliwa i kabiny. Przegląd techniczny pojazdu.</p>
+      <div class="service-extra">Wymiana oleju z filtrem — gratis*</div>
+    </div>
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <rect x="8" y="14" width="32" height="22" rx="2"/><path d="M16 14v-4h16v4M24 22v6M21 25h6"/>
+      </svg>
+      <h3>Diagnostyka komputerowa</h3>
+      <p>Weryfikacja stanu technicznego, odczyt i kasowanie kodów błędów. Diagnoza to podstawa precyzyjnej naprawy.</p>
+    </div>
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <circle cx="14" cy="36" r="6"/><circle cx="34" cy="36" r="6"/><path d="M8 36H6a2 2 0 01-2-2V18l6-8h26l6 8v16a2 2 0 01-2 2h-2"/>
+        <path d="M20 36h8"/>
+      </svg>
+      <h3>Układ hamulcowy</h3>
+      <p>Wymiana klocków, tarcz, bębnów, szczęk, linek hamulcowych i płynu hamulcowego z odpowietrzeniem.</p>
+    </div>
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <path d="M10 38c0-8 4-16 14-16s14 8 14 16"/><path d="M24 22V10"/><circle cx="24" cy="8" r="2"/>
+        <path d="M16 18l-4-4M32 18l4-4"/>
+      </svg>
+      <h3>Układ zawieszenia</h3>
+      <p>Wymiana amortyzatorów, sprężyn, łożysk, wahaczów, przegubów i drążków kierowniczych. Ustawienie zbieżności.</p>
+    </div>
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <path d="M6 24c0 0 4-8 18-8s18 8 18 8"/><path d="M10 24c2 4 6 8 14 8s12-4 14-8"/>
+        <circle cx="24" cy="24" r="4"/>
+      </svg>
+      <h3>Układ wydechowy</h3>
+      <p>Naprawa, uszczelnianie i spawanie. Wymiana elementów. Regeneracja filtra DPF.</p>
+    </div>
+    <div class="service-card reveal">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" color="#ff8c00">
+        <rect x="6" y="16" width="36" height="20" rx="3"/><path d="M14 16v-4a2 2 0 012-2h16a2 2 0 012 2v4"/>
+        <path d="M18 26h12M24 22v8"/>
+      </svg>
+      <h3>Serwis klimatyzacji</h3>
+      <p>Napełnienie czynnikiem, odgrzybianie układu, ozonowanie, wymiana filtra kabinowego. Przegląd min. raz w roku.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CENNIK -->
+<section id="cennik">
+  <div class="reveal">
+    <div class="section-label">Cennik</div>
+    <h2 class="section-title">Przejrzyste<br>ceny usług</h2>
+    <ul class="price-list" style="margin-top:2rem">
+      <li><span class="pname">Wymiana oleju z filtrem oleju</span><span class="pprice">GRATIS*</span></li>
+      <li><span class="pname">Wymiana oleju + filtr oleju, powietrza i kabiny</span><span class="pprice">GRATIS*</span></li>
+      <li><span class="pname">Wymiana filtra paliwa</span><span class="pprice">od 20 zł</span></li>
+      <li><span class="pname">Przegląd samochodu</span><span class="pprice">50 zł</span></li>
+      <li><span class="pname">Wymiana oleju w skrzyni manualnej</span><span class="pprice">od 30 zł</span></li>
+      <li><span class="pname">Wymiana świec zapłonowych</span><span class="pprice">od 30 zł</span></li>
+      <li><span class="pname">Wymiana płynu chłodniczego z odpowietrzeniem</span><span class="pprice">od 40 zł</span></li>
+      <li><span class="pname">Wymiana paska klinowego</span><span class="pprice">od 30 zł</span></li>
+    </ul>
+    <div class="cennik-note">
+      * Gratis przy zakupie oleju w DAR-OIL. W przypadku czasochłonnego demontażu osłon/filtrów
+      może zostać naliczona dodatkowa opłata. Możliwość obsługi samochodów dostawczych (max wys. 4,2 m).
+    </div>
+  </div>
+  <div class="cennik-img reveal">
+    <img src="images/silnik3.jpg" alt="Serwis silnika">
+  </div>
+</section>
+
+<!-- MARKI -->
+<section id="marki">
+  <div class="section-header reveal">
+    <div class="section-label">W naszej ofercie</div>
+    <h2 class="section-title">Nasze marki</h2>
+  </div>
+  <div class="brands-grid">
+    <div class="brand-cell reveal"><img src="images/castrol.png" alt="Castrol"></div>
+    <div class="brand-cell reveal"><img src="images/motul.png" alt="Motul"></div>
+    <div class="brand-cell reveal"><img src="images/molillogo.png" alt="Mobil"></div>
+    <div class="brand-cell reveal"><img src="images/filtron_logo.png" alt="Filtron"></div>
+    <div class="brand-cell reveal"><img src="images/osramlogo.png" alt="Osram"></div>
+    <div class="brand-cell reveal"><img src="images/nkglogo.png" alt="NKG"></div>
+    <div class="brand-cell reveal"><img src="images/centra_l.png" alt="Centra"></div>
+    <div class="brand-cell reveal"><img src="images/adbl.png" alt="ADBL"></div>
+    <div class="brand-cell reveal"><img src="images/bollk.png" alt="Bolle"></div>
+    <div class="brand-cell reveal"><img src="images/menzerna_logo.png" alt="Menzerna"></div>
+    <div class="brand-cell reveal"><img src="images/man.png" alt="MAN"></div>
+    <div class="brand-cell reveal"><img src="images/molly.png" alt="Molly"></div>
+    <div class="brand-cell reveal"><img src="images/tecneco3.png" alt="Tecneco"></div>
+    <div class="brand-cell reveal"><img src="images/rrclogo.png" alt="RRC"></div>
+  </div>
+</section>
+
+<!-- AKTUALNOŚCI -->
+<section id="aktualnosci">
+  <div class="reveal">
+    <div class="section-label">Aktualności</div>
+    <h2 class="section-title">Nowości w ofercie</h2>
+  </div>
+  <div class="news-card reveal">
+    <img src="images/Tecneco2.png" alt="Tecneco filtry kabinowe antybakteryjne">
+    <div class="news-content">
+      <span class="news-tag">Nowość w ofercie</span>
+      <h3>Wielowarstwowy antybakteryjny filtr kabinowy TECNECO ADPlus</h3>
+      <p>
+        Nowy typ filtrów kabinowych z 3-stopniową filtracją: wychwytuje zanieczyszczenia,
+        pochłania gazy i zapachy oraz zapobiega tworzeniu się bakterii i alergenów.
+        Warstwa biofunkcyjna z naturalnymi polifenolami neutralizuje bakterie i pleśń.
+      </p>
+      <p style="margin-top:.8rem">
+        Dostępne dwa typy: <strong style="color:var(--text)">Fibre</strong>
+        (filtracja cząstek) oraz <strong style="color:var(--text)">ADPlus</strong>
+        (filtracja + węgiel aktywny + warstwa antybakteryjna).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="contact-info">
+    <div>
+      <div class="section-label">Kontakt</div>
+      <h2 class="section-title">Przyjedź do nas</h2>
+    </div>
+    <div class="contact-block reveal">
+      <h4>Adres</h4>
+      <p>Dar-Oil<br>Łąkówek 2a<br>05-260 Marki<br>woj. mazowieckie</p>
+    </div>
+    <div class="contact-block reveal">
+      <h4>Telefon</h4>
+      <a href="tel:+48227713928">22 771 39 28</a>
+      <a href="tel:+48538428783">538 428 783</a>
+    </div>
+    <div class="contact-block reveal">
+      <h4>Email</h4>
+      <a href="mailto:dar-oil@dar-oil.pl">dar-oil@dar-oil.pl</a>
+    </div>
+    <div class="contact-block reveal">
+      <h4>Godziny otwarcia</h4>
+      <table class="hours-table">
+        <tr><td colspan="2" style="color:var(--orange);font-size:.8rem;padding-bottom:.2rem;text-transform:uppercase;letter-spacing:.08em">Sklep</td></tr>
+        <tr><td>Poniedziałek – Piątek</td><td>8:00 – 18:00</td></tr>
+        <tr><td>Sobota</td><td>8:00 – 13:00</td></tr>
+        <tr><td colspan="2" style="color:var(--orange);font-size:.8rem;padding:.8rem 0 .2rem;text-transform:uppercase;letter-spacing:.08em">Warsztat</td></tr>
+        <tr><td>Poniedziałek – Piątek</td><td>8:00 – 17:00</td></tr>
+        <tr><td>Sobota</td><td>8:00 – 13:00</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="contact-map reveal">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2440.0!2d21.135!3d52.345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zxYHEhWvDs3dlaw!5e0!3m2!1spl!2spl!4v1234567890!5m2!1spl!2spl&q=Łąkówek+2a,+05-260+Marki"
+      allowfullscreen loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Mapa DAR-OIL Marki">
+    </iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 DAR-OIL · Łąkówek 2a, 05-260 Marki · NIP: 824 113 37 64</p>
+  <div class="footer-links">
+    <a href="https://www.facebook.com" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.querySelector('.hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('open');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 0.08}s`;
+    observer.observe(el);
+  });
+
+  // Smooth nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--orange)' : '';
+    });
+  }, { passive: true });
+</script>
+</body>
+</html>
