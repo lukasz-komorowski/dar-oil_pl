@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asystent AI dla ofert nieruchomości – Webtivo</title>
+
+<!-- ====================================================================
+     UWAGA: Ta podstrona jest celowo NIEZAINDEKSOWANA i nie ma linku
+     z menu / stopki głównej strony. Dostęp tylko przez direct URL,
+     wysyłany ręcznie potencjalnym klientom (np. agentom nieruchomości).
+     ==================================================================== -->
+<meta name="robots" content="noindex, nofollow">
+
+<style>
+  /* ===========================
+     Te same CSS Custom Properties co na webtivo.pl/index.html
+     (skopiowane 1:1, żeby branding był identyczny)
+  =========================== */
+  :root {
+    --navy:        #0d1b2a;
+    --navy-mid:    #162032;
+    --navy-light:  #1e3048;
+    --navy-border: #253d5a;
+    --accent:      #3b9eff;
+    --accent-dark: #1a7de0;
+    --accent-glow: rgba(59,158,255,.18);
+    --white:       #ffffff;
+    --off-white:   #e8edf4;
+    --muted:       #8da4be;
+    --text:        #c8d8ea;
+    --radius-sm:   6px;
+    --radius-md:   12px;
+    --radius-lg:   20px;
+    --shadow-card: 0 4px 24px rgba(0,0,0,.35);
+    --shadow-btn:  0 4px 20px rgba(59,158,255,.4);
+    --transition:  .25s ease;
+    --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", monospace;
+
+    /* zielony status "aktualna oferta" — dobrany do palety navy/accent */
+    --ok:          #34d399;
+    --ok-bg:       rgba(52,211,153,.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--font);
+    background-color: var(--navy);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  /* ===========================
+     Header (bez linków nawigacyjnych — zgodnie z ustaleniem)
+  =========================== */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,27,42,.85);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .nav-inner {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), #0057b8);
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 20px; height: 20px; fill: #fff; }
+
+  .logo-text {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -.03em;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .demo-pill {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(59,158,255,.3);
+    padding: .35rem .85rem;
+    border-radius: 999px;
+  }
+
+  /* ===========================
+     Page intro
+  =========================== */
+  .container {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .intro {
+    padding: 3rem 0 2rem;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(59,158,255,.3);
+    padding: .3rem .85rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    color: var(--white);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: .75rem;
+  }
+
+  .intro p {
+    color: var(--muted);
+    max-width: 60ch;
+    font-size: .98rem;
+  }
+
+  /* ===========================
+     Main layout: chat + offers
+  =========================== */
+  main {
+    padding-bottom: 4rem;
+  }
+
+  .layout {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: 1.15fr 1fr; align-items: start; }
+  }
+
+  /* ===========================
+     Chat panel
+  =========================== */
+  .chat-panel {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    overflow: hidden;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .msg {
+    max-width: 82%;
+    padding: .7rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: .92rem;
+    line-height: 1.55;
+  }
+
+  .msg.assistant {
+    align-self: flex-start;
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: var(--white);
+    border-bottom-right-radius: 4px;
+  }
+
+  .typing {
+    align-self: flex-start;
+    display: flex;
+    gap: 4px;
+    padding: .85rem 1rem;
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius-md);
+    border-bottom-left-radius: 4px;
+  }
+
+  .typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: bounce 1.2s infinite ease-in-out;
+  }
+  .typing span:nth-child(2) { animation-delay: .15s; }
+  .typing span:nth-child(3) { animation-delay: .3s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .5; }
+    40% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .suggestions {
+    padding: 0 1.25rem .75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+
+  .suggestion-chip {
+    font-size: .78rem;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--navy-border);
+    border-radius: 999px;
+    padding: .4rem .85rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font);
+  }
+
+  .suggestion-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .chat-input-row {
+    border-top: 1px solid var(--navy-border);
+    padding: .85rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-end;
+  }
+
+  #chat-input {
+    flex: 1;
+    resize: none;
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius-md);
+    color: var(--white);
+    font-family: var(--font);
+    font-size: .92rem;
+    padding: .75rem 1rem;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    max-height: 120px;
+  }
+
+  #chat-input::placeholder { color: var(--muted); }
+
+  #chat-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  #send-btn {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--white);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background var(--transition), transform var(--transition);
+  }
+
+  #send-btn:hover { background: var(--accent-dark); }
+  #send-btn:disabled { opacity: .35; cursor: not-allowed; }
+  #send-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ===========================
+     Offers panel
+  =========================== */
+  .offers-label {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .9rem;
+    padding-left: .25rem;
+  }
+
+  .offers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .offer-card {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.4rem;
+    transition: border-color .5s ease, box-shadow .5s ease, background .5s ease;
+  }
+
+  .offer-card.highlight {
+    border-color: var(--accent);
+    background: var(--navy-light);
+    box-shadow: 0 0 0 3px var(--accent-glow), var(--shadow-card);
+  }
+
+  .offer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+
+  .offer-title {
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .badge {
+    flex-shrink: 0;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .badge.ok { background: var(--ok-bg); color: var(--ok); }
+  .badge.taken { background: rgba(141,164,190,.12); color: var(--muted); }
+
+  .offer-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--off-white);
+    margin-top: .5rem;
+    font-variant-numeric: tabular-nums;
+    transition: color .5s ease;
+  }
+
+  .offer-card.highlight .offer-price { color: var(--accent); }
+
+  .offer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .9rem;
+    margin-top: .65rem;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+
+  .offer-meta span { display: inline-flex; align-items: center; gap: .35rem; }
+  .offer-meta svg { width: 13px; height: 13px; fill: var(--muted); }
+
+  .offer-desc {
+    margin-top: .65rem;
+    font-size: .82rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .offers-note {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    padding-left: .25rem;
+    line-height: 1.6;
+  }
+
+  footer.demo-footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 1.75rem 0;
+    text-align: center;
+  }
+
+  footer.demo-footer p {
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  footer.demo-footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <span class="logo" aria-label="Webtivo">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 4h14v2H3V4zm0 5h14v2H3V9zm0 5h9v2H3v-2z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Web<span>tivo</span></span>
+      </span>
+      <span class="demo-pill">Demo asystenta AI</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="container intro">
+      <p class="section-label">Dla biur i agentów nieruchomości</p>
+      <h1>Asystent AI, który odpowiada za Ciebie</h1>
+      <p>
+        Klienci pytają o cenę, dostępność i termin obejrzenia o każdej godzinie. Ten asystent
+        odpowiada od ręki, 24/7, na podstawie aktualnej bazy ofert — wypróbuj go poniżej.
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="layout">
+
+        <!-- CHAT PANEL -->
+        <div class="chat-panel">
+          <div class="chat-messages" id="chat-messages">
+            <div class="msg assistant">
+              Dzień dobry! Jestem asystentem biura. Mogę odpowiedzieć na pytania o dostępne
+              oferty — cenę, metraż, termin wprowadzenia czy możliwość negocjacji. Którą ofertą
+              jesteś zainteresowany?
+            </div>
+          </div>
+
+          <div class="suggestions" id="suggestions">
+            <button class="suggestion-chip" type="button">Czy mieszkanie w Markach jest jeszcze dostępne?</button>
+            <button class="suggestion-chip" type="button">Jaki jest metraż domu w Zielonce?</button>
+            <button class="suggestion-chip" type="button">Czy cena kawalerki jest do negocjacji?</button>
+          </div>
+
+          <div class="chat-input-row">
+            <textarea id="chat-input" rows="1" placeholder="Napisz pytanie o ofertę…"></textarea>
+            <button id="send-btn" type="button" aria-label="Wyślij">
+              <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2.94 16.94 17.83 10 2.94 3.06 2.5 8.5l10.5 1.5-10.5 1.5z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- OFFERS PANEL -->
+        <div>
+          <p class="offers-label">Baza ofert (na żywo)</p>
+          <div class="offers-list" id="offers-list"><!-- generowane przez JS --></div>
+          <p class="offers-note">
+            Te dane to przykład. W realnym wdrożeniu asystent czyta bezpośrednio z arkusza ofert
+            klienta i aktualizuje się automatycznie.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="demo-footer">
+    <p>Przygotowane przez <a href="https://webtivo.pl">Webtivo</a> · Strony WWW, SEO i automatyzacje AI dla lokalnych firm</p>
+  </footer>
+
+  <script>
+    // =====================================================================
+    // BAZA OFERT (DEMO) — w realnym wdrożeniu: dane wczytywane z Google Sheet
+    // przez Netlify Function, nie hardkodowane w pliku.
+    // =====================================================================
+    const OFFERS = [
+      {
+        id: "1",
+        title: "Mieszkanie 3-pokojowe, Marki, ul. Lisa Kuli",
+        price: "649 000 zł",
+        area: "62 m²",
+        rooms: "3 pok.",
+        floor: "2/4",
+        status: "aktualna",
+        available: "Wolne od 1 sierpnia 2026",
+        negotiable: true,
+        description: "Przestronne mieszkanie po remoncie, balkon, miejsce parkingowe w cenie, blisko PKP Marki.",
+        keywords: ["marki", "1", "lisa kuli"]
+      },
+      {
+        id: "2",
+        title: "Kawalerka, Warszawa Targówek",
+        price: "420 000 zł",
+        area: "28 m²",
+        rooms: "1 pok.",
+        floor: "5/5",
+        status: "zarezerwowana",
+        available: "—",
+        negotiable: false,
+        description: "Kompaktowa kawalerka, idealna pod inwestycję, niski czynsz.",
+        keywords: ["kawalerka", "targówek", "warszawa", "2"]
+      },
+      {
+        id: "3",
+        title: "Dom jednorodzinny, Zielonka",
+        price: "1 150 000 zł",
+        area: "140 m²",
+        rooms: "5 pok.",
+        floor: "dom",
+        status: "aktualna",
+        available: "Wolne od zaraz",
+        negotiable: true,
+        description: "Działka 600 m², garaż, ogród, blisko lasu i stacji kolejki.",
+        keywords: ["dom", "zielonka", "3"]
+      }
+    ];
+
+    const SYSTEM_PROMPT = `Jesteś asystentem AI biura nieruchomości. Odpowiadasz wyłącznie na podstawie poniższej bazy ofert. Mów po polsku, konkretnie, ciepło, ale zwięźle (2-4 zdania). Jeśli pytanie dotyczy oferty, której nie ma w bazie — powiedz, że sprawdzisz i przekażesz agentowi. Jeśli klient pyta o negocjację ceny — powiedz, że cena jest do negocjacji (jeśli negotiable=true) i że agent skontaktuje się w tej sprawie, nie podawaj konkretnej nowej kwoty. Nigdy nie wymyślaj danych poza bazą.
+
+BAZA OFERT:
+${JSON.stringify(OFFERS, null, 2)}`;
+
+    // =====================================================================
+    // RENDER: karty ofert
+    // =====================================================================
+    const offersListEl = document.getElementById("offers-list");
+
+    function renderOffers(highlightId) {
+      offersListEl.innerHTML = OFFERS.map(o => `
+        <div class="offer-card ${o.id === highlightId ? "highlight" : ""}" data-id="${o.id}">
+          <div class="offer-top">
+            <div class="offer-title">${o.title}</div>
+            <span class="badge ${o.status === "aktualna" ? "ok" : "taken"}">
+              ${o.status === "aktualna" ? "Aktualna" : "Zarezerwowana"}
+            </span>
+          </div>
+          <div class="offer-price">${o.price}</div>
+          <div class="offer-meta">
+            <span>${o.area}</span>
+            <span>${o.rooms} · ${o.floor}</span>
+            <span>${o.available}</span>
+          </div>
+          <div class="offer-desc">${o.description}</div>
+        </div>
+      `).join("");
+    }
+    renderOffers(null);
+
+    function detectOfferId(text) {
+      const lower = text.toLowerCase();
+      const found = OFFERS.find(o => o.keywords.some(k => lower.includes(k)));
+      return found ? found.id : null;
+    }
+
+    // =====================================================================
+    // CHAT LOGIC
+    // =====================================================================
+    const messagesEl = document.getElementById("chat-messages");
+    const inputEl = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("send-btn");
+    const suggestionsEl = document.getElementById("suggestions");
+
+    let history = [
+      { role: "assistant", content: "Dzień dobry! Jestem asystentem biura. Mogę odpowiedzieć na pytania o dostępne oferty — cenę, metraż, termin wprowadzenia czy możliwość negocjacji. Którą ofertą jesteś zainteresowany?" }
+    ];
+    let loading = false;
+
+    function addMessage(role, content) {
+      const div = document.createElement("div");
+      div.className = `msg ${role}`;
+      div.textContent = content;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function showTyping() {
+      const div = document.createElement("div");
+      div.className = "typing";
+      div.id = "typing-indicator";
+      div.innerHTML = "<span></span><span></span><span></span>";
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function hideTyping() {
+      const el = document.getElementById("typing-indicator");
+      if (el) el.remove();
+    }
+
+    async function sendMessage(text) {
+      if (!text.trim() || loading) return;
+      loading = true;
+      sendBtn.disabled = true;
+
+      const offerHit = detectOfferId(text);
+      if (offerHit) renderOffers(offerHit);
+
+      addMessage("user", text);
+      history.push({ role: "user", content: text });
+      inputEl.value = "";
+      if (suggestionsEl) suggestionsEl.remove();
+      showTyping();
+
+      try {
+        // =================================================================
+        // Wywołanie idzie do WŁASNEJ Netlify Function (nie bezpośrednio do
+        // Anthropic API). Klucz API leży bezpiecznie po stronie serwera —
+        // patrz netlify/functions/chat.js
+        // =================================================================
+
+        const response = await fetch("/.netlify/functions/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history, system: SYSTEM_PROMPT })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Błąd serwera");
+        }
+
+        const reply = data.reply || "Przepraszam, nie udało się przetworzyć odpowiedzi.";
+
+        hideTyping();
+        addMessage("assistant", reply);
+        history.push({ role: "assistant", content: reply });
+
+      } catch (err) {
+        hideTyping();
+        addMessage("assistant", "Wystąpił błąd połączenia z asystentem. Spróbuj jeszcze raz za chwilę.");
+      } finally {
+        loading = false;
+        sendBtn.disabled = false;
+        setTimeout(() => renderOffers(null), 2500);
+      }
+    }
+
+    sendBtn.addEventListener("click", () => sendMessage(inputEl.value));
+
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage(inputEl.value);
+      }
+    });
+
+    inputEl.addEventListener("input", () => {
+      inputEl.style.height = "auto";
+      inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+    });
+
+    document.querySelectorAll(".suggestion-chip").forEach(btn => {
+      btn.addEventListener("click", () => sendMessage(btn.textContent));
+    });
+  </script>
+
+</body>
+</html>

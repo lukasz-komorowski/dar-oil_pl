@@ -1,0 +1,10 @@
+# Konfiguracja Netlify dla projektu Webtivo
+# Jeśli plik netlify.toml już istnieje w repo — NIE zastępuj go całego.
+# Dopisz tylko sekcję [functions] (i [build], jeśli jeszcze nie istnieje)
+# do istniejącego pliku.
+
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
